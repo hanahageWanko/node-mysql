@@ -28,7 +28,7 @@ app.listen(port);
 *********************************************/
 
 app.get('/list', (req, res) => {
-  const sql = 'select * from users';
+  const sql = `select * from ${process.env.TABLE_NAME}`;
   DB.query(sql, (err, result, fields) => {
     if(err) {
       console.error(err);
@@ -138,10 +138,10 @@ const searchDB = (table: string, column: string, name: string, callback:any):voi
 app.post('/', (req, res) => {
   searchDB('users', 'name', `${req.body.name}`,function(err:any, result:any){
     if(result) {
-      const insertSql:string = `INSERT INTO users(name,email) 
+      const insertSql:string = `INSERT INTO ${process.env.TABLE_NAME}(name,email) 
                           SELECT * FROM (select ?, ?) as tmp 
                           WHERE NOT EXISTS 
-                          ( SELECT * FROM users WHERE name='${req.body.name}')`;
+                          ( SELECT * FROM ${process.env.TABLE_NAME} WHERE name='${req.body.name}')`;
       DB.query(insertSql, [req.body.name, req.body.email], (err, result, fields) => {
         if(err) console.error(err);
         res.send("登録できました。");
@@ -155,7 +155,7 @@ app.post('/', (req, res) => {
 
 
 app.get('/edit/:id', (req, res) => {
-  const sql = 'select * from users WHERE id = ?';
+  const sql = 'select * from ${process.env.TABLE_NAME} WHERE id = ?';
   DB.query(sql, [req.params.id], (err, result, fields) => {
     if(err) {
       console.error(err);
@@ -167,7 +167,7 @@ app.get('/edit/:id', (req, res) => {
 
 
 app.post('/update/:id', (req, res) => {
-  const sql = `UPDATE users SET ? WHERE id = ${req.params.id}`;
+  const sql = `UPDATE ${process.env.TABLE_NAME} SET ? WHERE id = ${req.params.id}`;
   console.log(sql);
   DB.query(sql, [req.body], (err, result, fields) => {
     console.log([req.body.name, req.body.email]);
@@ -178,7 +178,7 @@ app.post('/update/:id', (req, res) => {
 
 
 app.get('/delete/:id', (req, res) => {
-  const sql = 'DELETE FROM users WHERE id = ?';
+  const sql = 'DELETE FROM ${process.env.TABLE_NAME} WHERE id = ?';
   DB.query(sql, [req.params.id], (err, result, fields) => {
     if(err) {
       console.error(err);
