@@ -2,7 +2,6 @@ import express from 'express';
 import path from 'path';
 import mysql from 'mysql';
 import bodyParser from 'body-parser';
-const router = require('./router.ts');
 require('dotenv').config();
 // mysql.server start
 // mysql -u root
@@ -18,23 +17,26 @@ const app = express();
 *********************************************/
 app.set('view engine', 'ejs');
 app.use('/css', express.static('css'));
-app.use("/", router);
-// 指定したポートに結果を渡す
 app.listen(port);
 
-
+app.get("/create", (req, res) => {
+    // index.ejsをレンダリング
+    res.render("create");
+});
+// app.use("/create", rt);
+// 指定したポートに結果を渡す
 /*********************************************
       ルート'/'に設定するファイルを設定
 *********************************************/
 
-app.get('/list', (req, res) => {
+app.get('/', (req, res) => {
   const sql = `select * from ${process.env.TABLE_NAME}`;
   DB.query(sql, (err, result, fields) => {
     if(err) {
       console.error(err);
       return;
     }
-    res.render('list', {result});
+    res.render('index', {result});
   });
 });
 
@@ -155,7 +157,7 @@ app.post('/', (req, res) => {
 
 
 app.get('/edit/:id', (req, res) => {
-  const sql = 'select * from ${process.env.TABLE_NAME} WHERE id = ?';
+  const sql = `select * from ${process.env.TABLE_NAME} WHERE id = ?`;
   DB.query(sql, [req.params.id], (err, result, fields) => {
     if(err) {
       console.error(err);
@@ -178,7 +180,7 @@ app.post('/update/:id', (req, res) => {
 
 
 app.get('/delete/:id', (req, res) => {
-  const sql = 'DELETE FROM ${process.env.TABLE_NAME} WHERE id = ?';
+  const sql = `DELETE FROM ${process.env.TABLE_NAME} WHERE id = ?`;
   DB.query(sql, [req.params.id], (err, result, fields) => {
     if(err) {
       console.error(err);

@@ -1,0 +1,22 @@
+<%
+const baseMeta = {
+  ttl: '入力ページ - EXPRESS-CRUD',
+  desc: 'サンプルプロジェクトの入力ページです',
+  url: 'create.ejs',
+  path: '.'
+};
+%>
+<%- include ('components/_header', {baseMeta}) %>
+  <h1><a href="/">EXPRESS-CRUD</a> > ユーザー登録</h1>
+  <form action="/" method="POST">
+    <div>
+      <label>name:</label><input type="text" name="name">
+    </div>
+    <div>
+      <label>email:</label><input type="text" name="email">
+    </div>
+    <button type="submit">送信</button>
+  </form>
+  <div><a href="/">登録ユーザー一覧へ</a></div>
+</body>
+</html>
