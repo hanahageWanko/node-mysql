@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/app.js"
+    "start": "nodemon src/app.ts"
   },
   "repository": {
     "type": "git",
@@ -19,11 +19,15 @@
   },
   "homepage": "https://github.com/hanahageWanko/node-mysql#readme",
   "dependencies": {
+    "@types/mysql": "^2.15.15",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "ts-node": "^9.0.0"
   },
   "devDependencies": {
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "tsc": "^1.20150623.0",
+    "typescript": "^4.0.3"
   }
 }

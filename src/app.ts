@@ -1,6 +1,6 @@
-const express = require('express');
-const port = require('./port');
-const DB = require('./mysql');
+import * as express from 'express';
+import * as port from './port';
+import * as DB from './mysql';
 const app = express();
 
 DB.connect( err => {
@@ -15,7 +15,11 @@ DB.connect( err => {
   })
 
   // テーブルの作成
-  const createTableSql = `CREATE TABLE IF NOT EXISTS ${process.env.TABLE_NAME} (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL)`;
+  const createTableSql = ` CREATE TABLE IF NOT EXISTS ${process.env.TABLE_NAME} 
+                           (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                           name VARCHAR(255) NOT NULL,
+                           email VARCHAR(255) NOT NULL)
+                         `;
   DB.query(createTableSql, (err, result) => {
     if(err) console.error(err);
   });
@@ -29,7 +33,18 @@ DB.connect( err => {
   });
 });
 
-app.get('/', (req,res) => res.send('Hello World!!!!!!'));
+
+// テーブルの中身を表示
+app.get('/', (req,res) => {
+  const sql = `select * from ${process.env.TABLE_NAME}`
+  DB.query(sql, (err, result, fields) => {
+    if(err) console.error(err);
+    res.send(result);
+    // res.send(fields);
+  });
+});
+
+// データの挿入
 
 
 app.listen(port, () => console.log(`Ecample app lestening on port'${port}!`));
