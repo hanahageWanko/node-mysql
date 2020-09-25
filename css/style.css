@@ -1,0 +1,32 @@
+html,body {
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 4%;
+}
+
+.wrapper h1,
+.wrapper th {
+  color: rgb(4, 165, 165);
+}
+
+.wrapper table {
+  width: 100%;
+  border-top: 1px solid rgb(4, 165, 165);
+  border-right: 1px solid rgb(4, 165, 165);
+}
+
+.wrapper tr:hover {
+  background: rgba(4, 165, 165, 0.3);
+}
+
+.wrapper th,
+.wrapper td {
+  border-left: 1px solid rgb(4, 165, 165);
+  border-bottom: 1px solid rgb(4, 165, 165);
+  padding:3px 7px;
+}
