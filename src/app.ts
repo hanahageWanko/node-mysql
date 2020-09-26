@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import mysql from 'mysql';
 import bodyParser from 'body-parser';
-// import ejs from 'ejs';
+const router = require('./router.ts');
 require('dotenv').config();
 
 /*********************************************
@@ -17,6 +17,7 @@ const app = express();
 *********************************************/
 app.set('view engine', 'ejs');
 app.use('/css', express.static('css'));
+app.use("/", router);
 // 指定したポートに結果を渡す
 app.listen(port);
 
@@ -25,14 +26,14 @@ app.listen(port);
       ルート'/'に設定するファイルを設定
 *********************************************/
 
-app.get('/', (req, res) => {
+app.get('/list', (req, res) => {
   const sql = 'select * from users';
   DB.query(sql, (err, result, fields) => {
     if(err) {
       console.error(err);
       return;
     }
-    res.render('index.ejs', {users : result});
+    res.render('list.ejs', {users : result});
   });
 });
 

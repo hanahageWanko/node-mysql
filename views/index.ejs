@@ -5,28 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="/css/style.css">
-  <title>User list</title>
+  <title>入力フォーム</title>
 </head>
 <body>
-  <div class="wrapper">
-    <h1>EXPRESS-CRUD</h1>
-    <table>
-      <tr>
-        <th>名前</th>
-        <th>email</th>
-        <th>操作</th>
-      </tr>
-      <% users.forEach( (value) => { %>
-        <tr>
-          <td><%= value.name %></td>
-          <td><%= value.email %></td>
-          <td>
-            <a href="/edit/<%= value.id %>">更新</a>
-            <a href="/delete/<%= value.id %>">削除</a>
-          </td>
-        </tr>
-      <% }); %>
-    </table>
-  </div>
+  <h1>EXPRESS-CRUD</h1>
+  <form action="/" method="POST">
+    <div>
+      <label>name:</label><input type="text" name="name">
+    </div>
+    <div>
+      <label>email:</label><input type="text" name="email">
+    </div>
+    <button type="submit">送信</button>
+  </form>
 </body>
 </html>
