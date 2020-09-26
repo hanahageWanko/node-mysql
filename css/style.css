@@ -1,6 +1,11 @@
 html,body {
   margin: 0;
   padding: 0;
+  color:#444;
+}
+
+div,table,th,td,h1,h2,h3,p,span{
+  color: inherit;
 }
 
 .wrapper {
