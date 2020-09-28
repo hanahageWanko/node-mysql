@@ -4,7 +4,8 @@ import mysql from 'mysql';
 import bodyParser from 'body-parser';
 const router = require('./router.ts');
 require('dotenv').config();
-
+// mysql.server start
+// mysql -u root
 /*********************************************
       グローバル定数の定義
 *********************************************/
@@ -33,9 +34,20 @@ app.get('/list', (req, res) => {
       console.error(err);
       return;
     }
-    res.render('list.ejs', {users : result});
+    res.render('list.ejs', {result});
   });
 });
+
+app.get('/edit/:id', (req, res) => {
+  const sql = 'select * from users WHERE id = ?';
+  DB.query(sql, [req.params.id], (err, result, fields) => {
+    if(err) {
+      console.error(err);
+      return;
+    }
+    res.render('edit.ejs', {result});
+  })
+})
 
 
 /*********************************************
@@ -152,13 +164,11 @@ app.post('/', (req, res) => {
 });
 
 
-
-// テーブルの中身を表示
-// app.get('/', (request, response) => {
-//   const sql = `select * from ${process.env.TABLE_NAME}`
-//   DB.query(sql, (err, result, fields) => {
-//     if(err) console.error(err);
-//     response.send(result);
-//     // res.send(fields);
-//   });
-// });
+app.post('/update/:id', (req, res) => {
+  const sql = `UPDATE uesrs SET ? WHERE id = ${req.params.id}`;
+  console.log(sql);
+  DB.query(sql, req.body, (err, result, fields) => {
+    if(err) return;
+    res.redirect('/');
+  })
+})
