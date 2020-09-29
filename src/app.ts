@@ -38,18 +38,6 @@ app.get('/list', (req, res) => {
   });
 });
 
-app.get('/edit/:id', (req, res) => {
-  const sql = 'select * from users WHERE id = ?';
-  DB.query(sql, [req.params.id], (err, result, fields) => {
-    if(err) {
-      console.error(err);
-      return;
-    }
-    res.render('edit', {result});
-  })
-})
-
-
 
 /*********************************************
       使用するDBを定義
@@ -165,6 +153,19 @@ app.post('/', (req, res) => {
 });
 
 
+
+app.get('/edit/:id', (req, res) => {
+  const sql = 'select * from users WHERE id = ?';
+  DB.query(sql, [req.params.id], (err, result, fields) => {
+    if(err) {
+      console.error(err);
+      return;
+    }
+    res.render('edit', {result});
+  })
+})
+
+
 app.post('/update/:id', (req, res) => {
   const sql = `UPDATE users SET ? WHERE id = ${req.params.id}`;
   console.log(sql);
@@ -175,3 +176,14 @@ app.post('/update/:id', (req, res) => {
   });
 });
 
+
+app.get('/delete/:id', (req, res) => {
+  const sql = 'DELETE FROM users WHERE id = ?';
+  DB.query(sql, [req.params.id], (err, result, fields) => {
+    if(err) {
+      console.error(err);
+      return;
+    }
+    res.redirect('/');
+  });
+});
