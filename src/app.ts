@@ -1,5 +1,4 @@
 import express from 'express';
-import path from 'path';
 import mysql from 'mysql';
 import bodyParser from 'body-parser';
 require('dotenv').config();
@@ -22,22 +21,6 @@ app.listen(port);
 app.get("/create", (req, res) => {
     // index.ejsをレンダリング
     res.render("create");
-});
-// app.use("/create", rt);
-// 指定したポートに結果を渡す
-/*********************************************
-      ルート'/'に設定するファイルを設定
-*********************************************/
-
-app.get('/', (req, res) => {
-  const sql = `select * from ${process.env.TABLE_NAME}`;
-  DB.query(sql, (err, result, fields) => {
-    if(err) {
-      console.error(err);
-      return;
-    }
-    res.render('index', {result});
-  });
 });
 
 
