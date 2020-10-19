@@ -1,6 +1,7 @@
 import express from 'express';
 import mysql from 'mysql';
 import bodyParser from 'body-parser';
+const ejs = require('ejs'); //追加
 require('dotenv').config();
 // mysql.server start
 // mysql -u root
@@ -9,7 +10,6 @@ require('dotenv').config();
 *********************************************/
 const port:number = 3000;
 const app = express();
-
 
 /*********************************************
       ejsの定義
@@ -120,6 +120,15 @@ const searchDB = (table: string, column: string, name: string, callback:any):voi
 /*********************************************
        POSTされた値をDBヘ挿入 & 表示
 *********************************************/
+app.get('/', (req, res) => {
+	const sql = "select * from users";
+	DB.query(sql, function (err, result, fields) {  
+	if (err) throw err;
+	res.render('index',{result});
+	});
+});
+
+
 app.post('/', (req, res) => {
   searchDB('users', 'name', `${req.body.name}`,function(err:any, result:any){
     if(result) {
@@ -152,10 +161,9 @@ app.get('/edit/:id', (req, res) => {
 
 
 app.post('/update/:id', (req, res) => {
-  const sql = `UPDATE ${process.env.TABLE_NAME} SET ? WHERE id = ${req.params.id}`;
-  console.log(sql);
-  DB.query(sql, [req.body], (err, result, fields) => {
-    console.log([req.body.name, req.body.email]);
+  const sql = `UPDATE ${process.env.TABLE_NAME} SET ? WHERE id = ?`;
+  console.log([req.body,req.params.id]);
+  DB.query(sql, [req.body,req.params.id], (err, result, fields) => {
     if(err) return;
     res.redirect('/');
   });
